@@ -1,0 +1,26 @@
+.board-row,#header,#footer{
+    display:flex;
+    justify-content:center;
+}
+
+#footer{
+    text-align: center;
+    margin:10px;
+    font-size: 30px; 
+}
+
+.board-row{
+    background-color:green
+}
+
+.board-row > div{
+    text-align: center;
+    height:200px;
+    width:200px;
+    margin:10px;
+    font-size: 30px;
+}
+
+.option-box{
+    background-color:white;
+}

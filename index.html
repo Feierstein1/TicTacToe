@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <title>Tic Tac Toe</title>
+</head>
+<body> 
+    <div id="header">
+        <div id="title">
+            <h1>Tic Tac Toe</h1>
+        </div>
+    </div>
+    <div id="board-game">
+        <div id="row-1" class="board-row">
+            <div id="option-1" class="option-box row-1 column-1 horz-1"></div>
+            <div id="option-2" class="option-box row-1 column-2"></div>
+            <div id="option-3" class="option-box row-1 column-3 horz-2"></div>
+        </div>
+        <div id="row-2" class="board-row">
+            <div id="option-4" class="option-box row-2 column-1"></div>
+            <div id="option-5" class="option-box row-2 column-2 horz-1 horz-2"></div>
+            <div id="option-6" class="option-box row-2 column-3"></div>
+        </div>
+        <div id="row-3" class="board-row">
+            <div id="option-7" class="option-box row-3 column-1 horz-2"></div>
+            <div id="option-8" class="option-box row-3 column-2"></div>
+            <div id="option-9" class="option-box row-3 column-3 horz-1"></div>
+        </div>
+    </div>
+    <div id="footer">
+        <div id="status">
+            <button id="PVP" onClick="PVP()">vs Player</button>
+            <button id="resetGame" onClick="resetBoard()">Reset Game</button>
+            <button id="PVC" onClick="PVC()">vs Computer</button>
+            <div id="turnCount"></div>
+            <div id="currentPlayer"></div>
+        </div>
+        
+    </div>
+</body>
+</html>
