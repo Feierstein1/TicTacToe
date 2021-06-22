@@ -1,26 +1,49 @@
-.board-row,#header,#footer{
-    display:flex;
-    justify-content:center;
+.board-row,
+#header,
+#footer {
+  display: flex;
+  justify-content: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
-#footer{
-    text-align: center;
-    margin:10px;
-    font-size: 30px; 
+#title {
+  font-size: 30px;
 }
 
-.board-row{
-    background-color:green
+#footer {
+  text-align: center;
+  margin: 10px;
+  font-size: 30px;
 }
 
-.board-row > div{
-    text-align: center;
-    height:200px;
-    width:200px;
-    margin:10px;
-    font-size: 30px;
+.board-row {
+  background-color: darkslategrey;
 }
 
-.option-box{
-    background-color:white;
+.board-row > div {
+  text-align: center;
+  height: 200px;
+  width: 200px;
+  margin: 10px;
+  font-size: 180px;
+}
+
+.option-box {
+  background-color: white;
+  position: center;
+  top: 50%;
+  margin-top: -10px;
+}
+
+.highlight {
+  background-color: yellow;
+}
+
+button {
+  border-radius: 16px;
+  background-color: black;
+  color: white;
+  margin: 5px;
+  padding: 15px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }

@@ -10,9 +10,11 @@
 </head>
 <body> 
     <div id="header">
+        <div id="X_score"></div>
         <div id="title">
             <h1>Tic Tac Toe</h1>
         </div>
+        <div id="O_score"></div>
     </div>
     <div id="board-game">
         <div id="row-1" class="board-row">
@@ -33,10 +35,10 @@
     </div>
     <div id="footer">
         <div id="status">
+            <div id="turnCount"></div>
             <button id="PVP" onClick="PVP()">vs Player</button>
             <button id="resetGame" onClick="resetBoard()">Reset Game</button>
             <button id="PVC" onClick="PVC()">vs Computer</button>
-            <div id="turnCount"></div>
             <div id="currentPlayer"></div>
         </div>
         
