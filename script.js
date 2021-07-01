@@ -1,4 +1,6 @@
-let currentPlayer = "X" 
+let p1 = "X"
+let p2 = "O"
+let currentPlayer = p1 
 let playerXscore = 0
 let playerOscore = 0
 let tieGame = false
@@ -6,14 +8,9 @@ let turnCount = 0
 let isWinner = false
 let isComputer = false
 
-const PVP =()=>{
-    setDisplay()
-    setClickOptions(true)
-}
-
-const PVC =()=>{
-    setDisplay()
-    isComputer = true
+const startMatch =(player)=>{
+     resetDisplay()
+     isComputer = player
 }
 
 let setClickOptions =(allowClicks)=>{
@@ -26,15 +23,18 @@ let setClickOptions =(allowClicks)=>{
 }
 
 const switchPlayer =()=>{
-   return (currentPlayer === "X" ? "O" : "X");
+   return (currentPlayer === p1 ? p2 : p1);
 }
 
 const MoveClick =(id)=>{
+    setClickOptions(true)
     currentSelection = document.getElementById(id);
     if(!(currentSelection.innerHTML.length) && !isWinner){
         currentSelection.innerHTML = currentPlayer
+        currentSelection.value = currentPlayer
+        console.log(currentSelection.value)
         if(turnCount > 4){
-            isWinner = isWinningPlay()
+            isWinner = isWinningPlay(document.getElementById(id))
         }
 
         if(!isWinner){
@@ -48,9 +48,10 @@ const MoveClick =(id)=>{
             setPlayerDisplay(`TIE GAME!!!!`)
         }
     }
-    if(isComputer && currentPlayer == "O"){
+    if((isComputer && currentPlayer == p2) && (!isWinner && turnCount < 10)){
         setClickOptions(false)
-        //computer makes move
+        let  options = document.querySelectorAll(".option-box")
+        MoveClick(compBestMove(options))
     }
 }
 
@@ -60,7 +61,6 @@ const resetBoard =()=>{
         opt.innerHTML = ""
         document.getElementById(opt.id).classList.remove("highlight")
     }
-    resetDisplay()
 }
 
 const setPlayerDisplay =(msg)=>{
@@ -68,20 +68,20 @@ const setPlayerDisplay =(msg)=>{
 }
 
 const incrementTurnCountDisplay =()=>{
-    turnCount <= 9 ? turnCount++ : turnCount    
+    turnCount <= 8 ? turnCount++ : turnCount    
     document.getElementById("turnCount").innerHTML = `Round: ${turnCount}`
 }
 
 const resetDisplay =()=>{
-    if(turnCount != 0){
-        turnCount = 0
-        currentPlayer = "X" 
-        isWinner = false
-        setDisplay()
-    }
+    turnCount = 0
+    currentPlayer = p1 
+    isWinner = false
+    resetBoard()
+    setDisplay()
 }
 
 const setDisplay =()=>{
+    setClickOptions(true)
     incrementTurnCountDisplay()
     setPlayerDisplay(`Player ${currentPlayer}'s turn`)
     setScores()
@@ -92,13 +92,14 @@ const setScores =()=>{
     document.getElementById("O_score").innerHTML = `Player O Score: ${playerOscore}`
 }
 
-const isWinningPlay =()=>{
-    const setsOfThree = ["row-1", "row-2", "row-3", "column-1", "column-2", "column-3", "horz-1", "horz-2"]
-    for (set of setsOfThree){
+const isWinningPlay =(id)=>{
+    const potentialWinningTrio = (id.className).split(" ")
+    console.log(potentialWinningTrio)
+    for (set of potentialWinningTrio){
         let setArray = document.querySelectorAll(`.${set}`)
         if((setArray[0].innerHTML === setArray[1].innerHTML && setArray[1].innerHTML === setArray[2].innerHTML) && setArray[0].innerHTML.length){
             console.log(`${set} ${setArray[0].innerHTML}, ${setArray[1].innerHTML}, ${setArray[2].innerHTML}`)
-            currentPlayer === "X" ? playerXscore++ : playerOscore++
+            currentPlayer === p1 ? playerXscore++ : playerOscore++
             setScores()
             for (i of setArray){
                 document.getElementById(i.id).classList.add("highlight")
