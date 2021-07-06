@@ -1,4 +1,4 @@
-let count = 0
+//let count = 0
 
 let scores = {
     X: -10,
@@ -11,8 +11,8 @@ const compBestMove =(options)=>{
     let compMove
     for (let opt of options){
         if(opt.innerHTML.length < 1){
-            opt.innerHTML = p2
-            let score = minimax(options, 0, false)
+            opt.innerHTML = player_2.symbol
+            let score = minimax(options, 0, scores.X, scores.O, false)
             opt.innerHTML = ""
             if(score > bestScore){
                 bestScore = score;
@@ -20,15 +20,15 @@ const compBestMove =(options)=>{
             }
         }
     }
-    console.log("count", count)
-    count = 0
+    //console.log("count", count)
+    //count = 0
     return compMove
 }
 
-const minimax =(options, depth, isMax)=>{
-    result = isWinningPlayer()
+const minimax =(options, depth, alpha, beta, isMax)=>{
+    result = isWinningPlay()
     if(result != null){
-        count++
+        //count++
         return scores[result]
     }
     if(isMax){
@@ -36,12 +36,15 @@ const minimax =(options, depth, isMax)=>{
         for (let opt1 of options){
             let currentSelection = document.getElementById(opt1.id);
             if(currentSelection.innerHTML === ""){
-                currentSelection.innerHTML = p2
-                let score = minimax(options, depth+1, false)
+                currentSelection.innerHTML = player_2.symbol
+                let score = minimax(options, depth+1, alpha, beta, false)
                 currentSelection.innerHTML = ""
                 bestScore = Math.max(bestScore,score)
+                alpha = Math.max(alpha,score)
+                if(beta <= alpha){
+                    break
+                }
             }
-            
         }
         return bestScore
     }else{
@@ -49,32 +52,14 @@ const minimax =(options, depth, isMax)=>{
         for (let opt2 of options){
             let currentSelection = document.getElementById(opt2.id);
             if(currentSelection.innerHTML === ""){
-                currentSelection.innerHTML = p1
-                score = minimax(options, depth+1, true)
+                currentSelection.innerHTML = player_1.symbol
+                score = minimax(options, depth+1, alpha, beta, true)
                 currentSelection.innerHTML = ""
                 bestScore = Math.min(bestScore,score)
             }
         }
         return bestScore
     }
-}
-
-const isWinningPlayer =()=>{
-    let openSpots = false
-    const winningThree = ["row-1", "row-2", "row-3", "column-1", "column-2", "column-3", "horz-1", "horz-2",]
-    for (set of winningThree){
-        let setArray = document.querySelectorAll(`.${set}`)
-        if(setArray[0].innerHTML === "" || setArray[1].innerHTML === "" || setArray[2].innerHTML === ""){
-            openSpots = true
-        }
-        else if((setArray[0].innerHTML === setArray[1].innerHTML && setArray[1].innerHTML === setArray[2].innerHTML) && setArray[0].innerHTML.length){
-            return setArray[0].innerHTML
-        }
-    }
-    if(!openSpots){
-        return "tie"
-    }
-    return null
 }
 
 // options - return an array of remaining ids of options available

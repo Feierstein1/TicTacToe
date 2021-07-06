@@ -5,8 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    <script src="minimax.js"></script>
     <title>Tic Tac Toe</title>
 </head>
 <body> 
@@ -19,30 +17,33 @@
     </div>
     <div id="board-game">
         <div id="row-1" class="board-row">
-            <div id="option-1" class="row-1 column-1 horz-1 option-box" value=""></div>
-            <div id="option-2" class="row-1 column-2 option-box" value=""></div>
-            <div id="option-3" class="row-1 column-3 horz-2 option-box" value=""></div>
+            <div id="option-1" class="row-1 column-1 horz-1 option-box" onclick="MoveClick(this.id)" value=""></div>
+            <div id="option-2" class="row-1 column-2 option-box" onclick="MoveClick(this.id)" value=""></div>
+            <div id="option-3" class="row-1 column-3 horz-2 option-box" onclick="MoveClick(this.id)" value=""></div>
         </div>
         <div id="row-2" class="board-row">
-            <div id="option-4" class="row-2 column-1 option-box" value=""></div>
-            <div id="option-5" class="row-2 column-2 horz-1 horz-2 option-box" value=""></div>
-            <div id="option-6" class="row-2 column-3 option-box" value=""></div>
+            <div id="option-4" class="row-2 column-1 option-box" onclick="MoveClick(this.id)" value=""></div>
+            <div id="option-5" class="row-2 column-2 horz-1 horz-2 option-box" onclick="MoveClick(this.id)" value=""></div>
+            <div id="option-6" class="row-2 column-3 option-box" onclick="MoveClick(this.id)" value=""></div>
         </div>
         <div id="row-3" class="board-row">
-            <div id="option-7" class="row-3 column-1 horz-2 option-box" value=""></div>
-            <div id="option-8" class="row-3 column-2 option-box" value=""></div>
-            <div id="option-9" class="row-3 column-3 horz-1 option-box" value=""></div>
+            <div id="option-7" class="row-3 column-1 horz-2 option-box" onclick="MoveClick(this.id)" value=""></div>
+            <div id="option-8" class="row-3 column-2 option-box" onclick="MoveClick(this.id)" value=""></div>
+            <div id="option-9" class="row-3 column-3 horz-1 option-box" onclick="MoveClick(this.id)" value=""></div>
         </div>
     </div>
     <div id="footer">
         <div id="status">
             <div id="turnCount"></div>
-            <button id="PVP" onClick="startMatch(false)">vs Player</button>
+            <button id="PVP" onClick="startMatch('human')">vs Player</button>
             <button id="resetGame" onClick="resetDisplay()">Reset Game</button>
-            <button id="PVC" onClick="startMatch(true)">vs Computer</button>
+            <button id="PVC" onClick="startMatch('robot')">vs Computer</button>
             <div id="currentPlayer"></div>
         </div>
         
     </div>
 </body>
+    <script src="class/Player.js"></script>
+    <script src="script.js"></script>
+    <script src="minimax.js"></script>
 </html>
