@@ -1,16 +1,20 @@
-let p1 = "X"
-let p2 = "O"
-let currentPlayer = p1 
-let playerXscore = 0
-let playerOscore = 0
-let tieGame = false
+const MAX_TURNS = 9
+let currentPlayer
 let turnCount = 0
 let isWinner = false
-let isComputer = false
 
-const startMatch =(player)=>{
-     resetDisplay()
-     isComputer = player
+const startMatch =(rival)=>{
+    player_1 = new Player("X", 0, "human")
+    player_2 = new Player("O", 0, rival)
+    resetDisplay()
+}
+
+const randomSelection =()=>{
+    let randomPick = Math.random()
+    randomPick > 0.5 ? currentPlayer = "X" : currentPlayer = "O"
+    if(currentPlayer === "O" && player_2.type === "robot"){
+        compMove()
+    }
 }
 
 let setClickOptions =(allowClicks)=>{
@@ -22,36 +26,40 @@ let setClickOptions =(allowClicks)=>{
     }
 }
 
+const compMove =()=>{
+    //setClickOptions(false)
+    let  options = document.querySelectorAll(".option-box")
+    MoveClick(compBestMove(options))
+}
+
 const switchPlayer =()=>{
-   return (currentPlayer === p1 ? p2 : p1);
+   return (currentPlayer === player_1.symbol ? player_2.symbol : player_1.symbol);
 }
 
 const MoveClick =(id)=>{
-    setClickOptions(true)
-    currentSelection = document.getElementById(id);
+    //setClickOptions(true)
+    let currentSelection = document.getElementById(id);
     if(!(currentSelection.innerHTML.length) && !isWinner){
         currentSelection.innerHTML = currentPlayer
-        currentSelection.value = currentPlayer
-        console.log(currentSelection.value)
         if(turnCount > 4){
-            isWinner = isWinningPlay(document.getElementById(id))
+            isWinner = isWinningPlay()
         }
 
         if(!isWinner){
             currentPlayer = switchPlayer()
             setDisplay()
         }
-        else{
+        else if(isWinner != "tie"){
+            highlightWinner()
+            currentPlayer === "X" ? player_1.incrementScore() : player_2.incrementScore()
             setPlayerDisplay(`Player ${currentPlayer} WON!!!!`)
         }
-        if(!isWinner && turnCount > 9){
+        else{
             setPlayerDisplay(`TIE GAME!!!!`)
         }
     }
-    if((isComputer && currentPlayer == p2) && (!isWinner && turnCount < 10)){
-        setClickOptions(false)
-        let  options = document.querySelectorAll(".option-box")
-        MoveClick(compBestMove(options))
+    if((player_2.type === "robot" && currentPlayer == "O") && (!isWinner && turnCount < MAX_TURNS)){
+        compMove()
     }
 }
 
@@ -68,44 +76,57 @@ const setPlayerDisplay =(msg)=>{
 }
 
 const incrementTurnCountDisplay =()=>{
-    turnCount <= 8 ? turnCount++ : turnCount    
+    turnCount <= MAX_TURNS ? turnCount++ : turnCount    
     document.getElementById("turnCount").innerHTML = `Round: ${turnCount}`
 }
 
 const resetDisplay =()=>{
     turnCount = 0
-    currentPlayer = p1 
+    currentPlayer = player_1.symbol
+    //randomSelection() 
     isWinner = false
     resetBoard()
     setDisplay()
 }
 
 const setDisplay =()=>{
-    setClickOptions(true)
+    //setClickOptions(true)
     incrementTurnCountDisplay()
     setPlayerDisplay(`Player ${currentPlayer}'s turn`)
     setScores()
 }
 
 const setScores =()=>{
-    document.getElementById("X_score").innerHTML = `Player X Score: ${playerXscore}`
-    document.getElementById("O_score").innerHTML = `Player O Score: ${playerOscore}`
+    document.getElementById("X_score").innerHTML = `Player X Score: ${player_1.score}`
+    document.getElementById("O_score").innerHTML = `Player O Score: ${player_2.score}`
 }
 
-const isWinningPlay =(id)=>{
-    const potentialWinningTrio = (id.className).split(" ")
-    console.log(potentialWinningTrio)
-    for (set of potentialWinningTrio){
+const isWinningPlay =()=>{
+    let openSpots = false
+    const winningThree = ["row-1", "row-2", "row-3", "column-1", "column-2", "column-3", "horz-1", "horz-2"]
+    for (set of winningThree){
         let setArray = document.querySelectorAll(`.${set}`)
-        if((setArray[0].innerHTML === setArray[1].innerHTML && setArray[1].innerHTML === setArray[2].innerHTML) && setArray[0].innerHTML.length){
-            console.log(`${set} ${setArray[0].innerHTML}, ${setArray[1].innerHTML}, ${setArray[2].innerHTML}`)
-            currentPlayer === p1 ? playerXscore++ : playerOscore++
-            setScores()
-            for (i of setArray){
-                document.getElementById(i.id).classList.add("highlight")
-            }
-            return true
+        if(setArray[0].innerHTML === "" || setArray[1].innerHTML === "" || setArray[2].innerHTML === ""){
+            openSpots = true
+        }
+        else if((setArray[0].innerHTML === setArray[1].innerHTML && setArray[1].innerHTML === setArray[2].innerHTML) && setArray[0].innerHTML.length){
+            return setArray[0].innerHTML
         }
     }
-    return false
+    if(!openSpots){
+        return "tie"
+    }
+    return null
+}
+
+const highlightWinner =()=>{
+    const winningThree = ["row-1", "row-2", "row-3", "column-1", "column-2", "column-3", "horz-1", "horz-2"]
+    for (set of winningThree){
+        let setArray = document.querySelectorAll(`.${set}`)
+        if((setArray[0].innerHTML === setArray[1].innerHTML && setArray[1].innerHTML === setArray[2].innerHTML) && setArray[0].innerHTML.length){
+           for(let opt of setArray){
+                document.getElementById(opt.id).classList.add("highlight")
+           }
+        }
+    }
 }
