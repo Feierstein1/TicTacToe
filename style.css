@@ -7,7 +7,8 @@
 }
 
 #title {
-  font-size: 30px;
+  font-size: 20px;
+  height: 10%;
 }
 
 #footer {
@@ -22,6 +23,7 @@
 
 .board-row > div {
   text-align: center;
+  border-radius: 16px;
   height: 200px;
   width: 200px;
   margin: 10px;
